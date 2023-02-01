@@ -9,6 +9,7 @@
 ##################################################################################
 
 import sys
+import os
 import sqlite3
 import pandas as pd
 from PyQt5 import QtCore
@@ -72,7 +73,8 @@ class App(QWidget):
         layout.addWidget(tabs)     
         #Creating welcome screen   
         #Criando tela de boas vindas
-        welcome_label = QLabel("Seja bem-vindo!")
+        user = os.getenv("USERNAME")        
+        welcome_label = QLabel(user + " seja bem-vindo!")
         welcome_label.setStyleSheet("font-size: 40px; font-weight: bold;")
         welcome_label.setAlignment(Qt.AlignCenter)
         #Creating a Task Card
