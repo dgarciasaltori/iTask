@@ -13,15 +13,15 @@ So thinking about that came the idea for my study, to create something that coul
 
 ## Welcome tab
 
-![Welcome screen](image\tab_welcome.png)
-![Welcome Cards screen](image\cards.png)
+![Welcome screen](image/tab_welcome.png)
+![Welcome Cards screen](image/cards.png)
 
 When opening the application, a welcome message is shown and three cards with the summed values of tasks, punish and how much you have to receive at the end of the cycle of tasks (think it would be per month, from the first day to the last day of the month chain).
 The cards are updated as the application is opened, to reflect the values it takes from the database the information of the sum of the value column of each database table.
 
 ## Tasks Tab
 
-![Task screen](image\tab_task.png)
+![Task screen](image/tab_task.png)
 
 This screen is where task records take place, there is a simple form to insert the task title (text type field), date (date type field with mask) and value (value type field and accepts decimal numbers).
 
@@ -34,7 +34,7 @@ The export button has a double function, in addition to exporting it cleans the 
 
 ## Punish tab
 
-![Punish screen](image\tab_punish.png)
+![Punish screen](image/tab_punish.png)
 
 This screen is where punish are registered, there is a simple form to insert the title of the fine (text type field), date (date type field with mask) and value (value type field and accepts decimal numbers).
 
@@ -47,14 +47,14 @@ The export button has a double function, in addition to exporting it cleans the 
 
 ## Report tab
 
-![Report screen](image\report.png)
+![Report screen](image/report.png)
 
 A tab to show the total amount of tasks and punish in a bar graph.
 
 ## Database
 
-![Database screen](image\database.png)
-![Database screen](image\database2.png)
+![Database screen](image/database.png)
+![Database screen](image/database2.png)
 
 Database created in SQLite3 containing two tables, the file is created automatically when opening the application for the first time.
 
@@ -71,15 +71,15 @@ Então pensando nisso que veio a ideia para meu estudo, criar algo que pudesse a
 
 ## Aba de Boas-vindas
 
-![Welcome screen](image\tab_welcome.png)
-![Welcome Cards screen](image\cards.png)
+![Welcome screen](image/tab_welcome.png)
+![Welcome Cards screen](image/cards.png)
 
 Ao abrir o aplicativo é mostrado uma mensagem de boas vindas e três cards com os valores somados de tarefas, multas e o quanto tem a receber ao final do ciclo de tarefas (pense que seria por mês, do primeiro dia até o ultimo dia do mês corrente).
 Os cards são atualizados conforme o aplicativo é aberto, para refletir os valores ele pega a partir do banco de dados a informação da soma da coluna valor de cada tabela do banco de dados.
 
 ## Aba de Tarefas
 
-![Task screen](image\tab_task.png)
+![Task screen](image/tab_task.png)
 
 Nessa tela é onde acontecem os registros de tarefas, há um formulário simples para inserir o titulo da tarefa(campo tipo texto), data (campo tipo data com mascara) e o valor (campo do tipo valor e aceita numeros decimais).
 
@@ -92,7 +92,7 @@ O botão para exportar tem uma função dupla, além de exportar ele limpa o ban
 
 ## Aba de Multas
 
-![Punish screen](image\tab_punish.png)
+![Punish screen](image/tab_punish.png)
 
 Nessa tela é onde acontecem os registros de multas, há um formulário simples para inserir o titulo da multa(campo tipo texto), data (campo tipo data com mascara) e o valor (campo do tipo valor e aceita numeros decimais).
 
@@ -105,14 +105,14 @@ O botão para exportar tem uma função dupla, além de exportar ele limpa o ban
 
 ## Aba Relatório
 
-![Report screen](image\report.png)
+![Report screen](image/report.png)
 
 Uma aba para mostrar o valor total das tarefas e multas em um gráfico de barras.
 
 ## Banco de dados 
 
-![Database screen](image\database.png)
-![Database screen](image\database2.png)
+![Database screen](image/database.png)
+![Database screen](image/database2.png)
 
 Banco de dados criado em SQLite3 contendo duas tabelas, o arquivo é criado automaticamente ao abrir a primeira vez o aplicativo.
 
