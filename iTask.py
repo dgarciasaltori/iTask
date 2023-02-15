@@ -2,7 +2,7 @@
 #                       Code by: Diego Garcia Saltori                            #
 #                       UTF-8                                                    #
 #                       Lang: EN | PT-BR                                         #
-#                       Version: 1.0                                             #
+#                       Version: 1.1                                             #
 ##################################################################################
 #                       Importar Bibliotecas                                     #
 #                       Import Libraries                                         #
@@ -15,7 +15,7 @@ import pandas as pd
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QImage, QPalette, QBrush
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTabWidget, QTableView, QDoubleSpinBox, QLabel, QFrame
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTabWidget, QTableView, QDoubleSpinBox, QLabel, QFrame, QHeaderView
 from PyQt5.QtWidgets import QApplication, QFormLayout, QLineEdit, QPushButton, QDateEdit, QSizePolicy, QFileDialog
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -35,7 +35,7 @@ class App(QWidget):
     #Função para criar a interface do aplicativo
     def __init__(self):
         super().__init__()
-        self.title = 'iTask 1.0'
+        self.title = 'iTask 1.1'
         self.left = 250
         self.top = 100
         self.width = 800
@@ -74,9 +74,14 @@ class App(QWidget):
         #Creating welcome screen   
         #Criando tela de boas vindas
         user = os.getenv("USERNAME")        
-        welcome_label = QLabel(user + " seja bem-vindo!")
+        welcome_label = QLabel(user + ".")
+        #welcome_label.setWordWrap(True)
         welcome_label.setStyleSheet("font-size: 40px; font-weight: bold;")
         welcome_label.setAlignment(Qt.AlignCenter)
+        welcome_label1 = QLabel("Seja bem-vindo!")
+        #welcome_label1.setWordWrap(True)
+        welcome_label1.setStyleSheet("font-size: 30px; font-weight: bold;")
+        welcome_label1.setAlignment(Qt.AlignCenter)
         #Creating a Task Card
         #Criando card de Tarefas
         tarefas_card = QFrame()
@@ -87,10 +92,10 @@ class App(QWidget):
         conn = sqlite3.connect("Tarefas.db")
         st = pd.read_sql_query("SELECT value FROM task", conn)
         soma_tarefas = st['value'].sum()
-        tarefas_label = QLabel("Valor Total das Tarefas: R$ " + str(soma_tarefas))
+        tarefas_label = QLabel("Total Tarefas: R$ " + str(soma_tarefas))
         tarefas_label.setAlignment(Qt.AlignCenter)
         tarefas_card.setFixedSize(450, 80)
-        tarefas_card.setStyleSheet("background-color: #d9e5f5; border-radius: 10px; padding: 20px; font-size: 20px;")
+        tarefas_card.setStyleSheet("background-color: #20b2aa; border-radius: 10px; padding: 20px; font-size: 20px;")
         tarefas_layout.addWidget(tarefas_label)
         tarefas_card.setLayout(tarefas_layout)
         #Creating punish card
@@ -102,10 +107,10 @@ class App(QWidget):
         conn = sqlite3.connect("Tarefas.db")
         sm = pd.read_sql_query("SELECT value FROM punish", conn)
         soma_multas = sm['value'].sum()
-        multas_label = QLabel("Valor Total das Multas: R$ " + str(soma_multas))
+        multas_label = QLabel("Total Multas: R$ " + str(soma_multas))
         multas_label.setAlignment(Qt.AlignCenter)
         multas_card.setFixedSize(450, 80)
-        multas_card.setStyleSheet("background-color: #d9e5f5; border-radius: 10px; padding: 20px; font-size: 20px;")
+        multas_card.setStyleSheet("background-color: #f5001b; border-radius: 10px; padding: 20px; font-size: 20px;")
         multas_layout.addWidget(multas_label)
         multas_card.setLayout(multas_layout)
         #Creating Results card
@@ -115,10 +120,10 @@ class App(QWidget):
         resultado_card.setLineWidth(1)
         resultado_layout = QVBoxLayout()
         conn = sqlite3.connect("Tarefas.db")
-        resultado_label = QLabel("Valor a receber (Tarefas - Multas): R$ " + str(soma_tarefas - soma_multas))
+        resultado_label = QLabel("Valor a receber: R$ " + str(soma_tarefas - soma_multas))
         resultado_label.setAlignment(Qt.AlignCenter)
         resultado_card.setFixedSize(450, 80)
-        resultado_card.setStyleSheet("background-color: #d9e5f5; border-radius: 10px; padding: 20px; font-size: 20px;")
+        resultado_card.setStyleSheet("background-color: #ffdb58; border-radius: 10px; padding: 20px; font-size: 20px;")
         resultado_layout.addWidget(resultado_label)
         resultado_card.setLayout(resultado_layout)
         #Finalizing the layout of the first welcome tab
@@ -126,6 +131,7 @@ class App(QWidget):
         welcome_layout = QVBoxLayout()
         welcome_layout.setAlignment(Qt.AlignCenter)
         welcome_layout.addWidget(welcome_label)
+        welcome_layout.addWidget(welcome_label1)
         welcome_layout.addWidget(tarefas_card)
         welcome_layout.addWidget(multas_card)
         welcome_layout.addWidget(resultado_card)
@@ -159,7 +165,9 @@ class App(QWidget):
         self.table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.table.setStyleSheet("""
             QTableView {
-                background-color: white;
+                background-color: rgba(255, 255, 255, 0.9);
+                background-image: url('image/fundo_transparente.png');
+                background-attachment: fixed;
                 gridline-color: #cbcbcb;
                 font-size: 12pt;
                 font-family: Arial, sans-serif;
@@ -167,11 +175,13 @@ class App(QWidget):
             QTableView::item {
                 padding: 5px;
                 border: 1px solid #cbcbcb;
+                color: black;
             }
             QTableView::item:selected {
                 background-color: #cbcbcb;
             }
         """)
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.update_dataframe(df)
         form.addRow(self.table)
         #Button to save the table data in the database
@@ -217,7 +227,9 @@ class App(QWidget):
         self.table2.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.table2.setStyleSheet("""
             QTableView {
-                background-color: white;
+                background-color: rgba(255, 255, 255, 0.9);
+                background-image: url('image/fundo_transparente.png');
+                background-attachment: fixed;
                 gridline-color: #cbcbcb;
                 font-size: 12pt;
                 font-family: Arial, sans-serif;
@@ -225,11 +237,13 @@ class App(QWidget):
             QTableView::item {
                 padding: 5px;
                 border: 1px solid #cbcbcb;
+                color: black;
             }
             QTableView::item:selected {
                 background-color: #cbcbcb;
             }
         """)
+        self.table2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.update_dataframe2(df2)
         #Button to save the table data in the database
         #Botão para salvar os dados da tabela no banco de dados
@@ -263,11 +277,11 @@ class App(QWidget):
         #Creating a bar chart
         #Criando gráfico de barras
         fig, ax = plt.subplots()
-        plt.bar(x=['task', 'punish'], height=[sum_tasks, sum_punish], color=['blue', 'red'])
+        plt.bar(x=['Tarefas', 'Multas'], height=[sum_tasks, sum_punish], color=['blue', 'red'])
         #Creating the title of the chart axes and label
         #Criando o titulo dos eixos do grafico e nome
-        ax.set_title("Comparação de valores de entrada e saída")
-        ax.set_xlabel("Tipos")
+        ax.set_title("Meu gráfico de andamento")
+        ax.set_xlabel("")
         ax.set_ylabel("Soma dos valores")
         conn.close()
         # Finalizing the insertion of the graphic in the tab
