@@ -136,9 +136,7 @@ class App(QWidget):
         welcome_layout.addWidget(multas_card)
         welcome_layout.addWidget(resultado_card)
         welcome_tab.setLayout(welcome_layout)
-
 ##################################################################################
-
         #Creating the Tasks form and Tasks tab
         #Criando o formulario de Tarefas e aba de Tarefas
         form = QFormLayout()
