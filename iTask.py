@@ -74,9 +74,9 @@ class App(QWidget):
         #Creating welcome screen   
         #Criando tela de boas vindas
         user = os.getenv("USERNAME")        
-        welcome_label = QLabel(user + ".")
+        welcome_label = QLabel(user)
         #welcome_label.setWordWrap(True)
-        welcome_label.setStyleSheet("font-size: 40px; font-weight: bold;")
+        welcome_label.setStyleSheet("font-size: 35px; font-weight: bold;")
         welcome_label.setAlignment(Qt.AlignCenter)
         welcome_label1 = QLabel("Seja bem-vindo!")
         #welcome_label1.setWordWrap(True)
@@ -92,7 +92,7 @@ class App(QWidget):
         conn = sqlite3.connect("Tarefas.db")
         st = pd.read_sql_query("SELECT value FROM task", conn)
         soma_tarefas = st['value'].sum()
-        tarefas_label = QLabel("Total Tarefas: R$ " + str(soma_tarefas))
+        tarefas_label = QLabel("Total Tarefas: R$ {:,.2f}".format(float(soma_tarefas)))
         tarefas_label.setAlignment(Qt.AlignCenter)
         tarefas_card.setFixedSize(450, 80)
         tarefas_card.setStyleSheet("background-color: #20b2aa; border-radius: 10px; padding: 20px; font-size: 20px;")
@@ -107,7 +107,7 @@ class App(QWidget):
         conn = sqlite3.connect("Tarefas.db")
         sm = pd.read_sql_query("SELECT value FROM punish", conn)
         soma_multas = sm['value'].sum()
-        multas_label = QLabel("Total Multas: R$ " + str(soma_multas))
+        multas_label = QLabel("Total Multas: R$ {:,.2f}".format(float(soma_multas)))
         multas_label.setAlignment(Qt.AlignCenter)
         multas_card.setFixedSize(450, 80)
         multas_card.setStyleSheet("background-color: #f5001b; border-radius: 10px; padding: 20px; font-size: 20px;")
@@ -120,7 +120,7 @@ class App(QWidget):
         resultado_card.setLineWidth(1)
         resultado_layout = QVBoxLayout()
         conn = sqlite3.connect("Tarefas.db")
-        resultado_label = QLabel("Valor a receber: R$ " + str(soma_tarefas - soma_multas))
+        resultado_label = QLabel("Valor a receber: R$ {:,.2f}".format(float(soma_tarefas - soma_multas)))
         resultado_label.setAlignment(Qt.AlignCenter)
         resultado_card.setFixedSize(450, 80)
         resultado_card.setStyleSheet("background-color: #ffdb58; border-radius: 10px; padding: 20px; font-size: 20px;")
@@ -162,6 +162,7 @@ class App(QWidget):
         self.data = {'Tarefa': [], 'Data': [], 'Valor': []}
         df = pd.DataFrame(self.data)
         self.table = QTableView()
+        df['Valor'] = df['Valor'].map('R$ {:,.2f}'.format)
         self.table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.table.setStyleSheet("""
             QTableView {
@@ -305,12 +306,13 @@ class App(QWidget):
         fileName, _ = QFileDialog.getSaveFileName(self, "Salvar Arquivo", "", "Excel Files (*.xlsx);;All Files (*)", options=options)
         if fileName:
             df = pd.DataFrame(self.data)
-            df.to_excel("Tarefas.xlsx", index=False)
+            df.to_excel(fileName, index=False)
             conn = sqlite3.connect("Tarefas.db")
             cur = conn.cursor()
             cur.execute("DELETE FROM task")
             conn.commit()
             conn.close()
+            self.load_data()
 
     #Send table to database
     #Enviar tabela para banco de dados
@@ -350,6 +352,7 @@ class App(QWidget):
                             self.data['Valor'][i]))
         conn.commit()
         conn.close()
+        self.load_data()
 
     #Automatically load the database
     #Carregar automaticamente o banco de dados
@@ -385,6 +388,7 @@ class App(QWidget):
             cur.execute("DELETE FROM punish")
             conn.commit()
             conn.close()
+            self.load_data2()
     
     #Send table to database
     #Enviar tabela para banco de dados
@@ -424,6 +428,7 @@ class App(QWidget):
                             self.data2['Valor'][i]))
         conn.commit()
         conn.close()
+        self.load_data2()
 
     #Automatically load the database
     #Carregar automaticamente o banco de dados
