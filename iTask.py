@@ -381,7 +381,7 @@ class App(QWidget):
         fileName, _ = QFileDialog.getSaveFileName(self, "Salvar Arquivo", "", "Excel Files (*.xlsx);;All Files (*)", options=options)
         if fileName:
             df2 = pd.DataFrame(self.data2)
-            df2.to_excel("Tarefas.xlsx", index=False)
+            df2.to_excel(fileName, index=False)
             conn = sqlite3.connect("Tarefas.db")
             cur = conn.cursor()
             cur.execute("DELETE FROM punish")
