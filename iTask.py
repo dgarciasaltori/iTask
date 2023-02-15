@@ -95,7 +95,7 @@ class App(QWidget):
         tarefas_label = QLabel("Total Tarefas: R$ {:,.2f}".format(float(soma_tarefas)))
         tarefas_label.setAlignment(Qt.AlignCenter)
         tarefas_card.setFixedSize(450, 80)
-        tarefas_card.setStyleSheet("background-color: #20b2aa; border-radius: 10px; padding: 20px; font-size: 20px;")
+        tarefas_card.setStyleSheet("background-color: #20b2aa; color: white; border-radius: 10px; padding: 20px; font-size: 20px;")
         tarefas_layout.addWidget(tarefas_label)
         tarefas_card.setLayout(tarefas_layout)
         #Creating punish card
@@ -110,7 +110,7 @@ class App(QWidget):
         multas_label = QLabel("Total Multas: R$ {:,.2f}".format(float(soma_multas)))
         multas_label.setAlignment(Qt.AlignCenter)
         multas_card.setFixedSize(450, 80)
-        multas_card.setStyleSheet("background-color: #f5001b; border-radius: 10px; padding: 20px; font-size: 20px;")
+        multas_card.setStyleSheet("background-color: #f5001b; color: white; border-radius: 10px; padding: 20px; font-size: 20px;")
         multas_layout.addWidget(multas_label)
         multas_card.setLayout(multas_layout)
         #Creating Results card
@@ -123,7 +123,7 @@ class App(QWidget):
         resultado_label = QLabel("Valor a receber: R$ {:,.2f}".format(float(soma_tarefas - soma_multas)))
         resultado_label.setAlignment(Qt.AlignCenter)
         resultado_card.setFixedSize(450, 80)
-        resultado_card.setStyleSheet("background-color: #ffdb58; border-radius: 10px; padding: 20px; font-size: 20px;")
+        resultado_card.setStyleSheet("background-color: #49b675; color: white; border-radius: 10px; padding: 20px; font-size: 20px;")
         resultado_layout.addWidget(resultado_label)
         resultado_card.setLayout(resultado_layout)
         #Finalizing the layout of the first welcome tab
@@ -162,21 +162,21 @@ class App(QWidget):
         self.data = {'Tarefa': [], 'Data': [], 'Valor': []}
         df = pd.DataFrame(self.data)
         self.table = QTableView()
-        df['Valor'] = df['Valor'].map('R$ {:,.2f}'.format)
         self.table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.table.setStyleSheet("""
             QTableView {
-                background-color: rgba(255, 255, 255, 0.9);
-                background-image: url('image/fundo_transparente.png');
+                background-color: #fafad2;
                 background-attachment: fixed;
                 gridline-color: #cbcbcb;
                 font-size: 12pt;
                 font-family: Arial, sans-serif;
+
             }
             QTableView::item {
                 padding: 5px;
                 border: 1px solid #cbcbcb;
                 color: black;
+
             }
             QTableView::item:selected {
                 background-color: #cbcbcb;
@@ -228,17 +228,18 @@ class App(QWidget):
         self.table2.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.table2.setStyleSheet("""
             QTableView {
-                background-color: rgba(255, 255, 255, 0.9);
-                background-image: url('image/fundo_transparente.png');
+                background-color: #fafad2;
                 background-attachment: fixed;
                 gridline-color: #cbcbcb;
                 font-size: 12pt;
                 font-family: Arial, sans-serif;
+
             }
             QTableView::item {
                 padding: 5px;
                 border: 1px solid #cbcbcb;
                 color: black;
+
             }
             QTableView::item:selected {
                 background-color: #cbcbcb;
