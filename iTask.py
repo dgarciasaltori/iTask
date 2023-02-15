@@ -70,7 +70,7 @@ class App(QWidget):
         tabs.addTab(task, "Registro de Tarefas")                
         tabs.addTab(punish, "Registro de Multas")
         tabs.addTab(report, "Relatórios")
-        layout.addWidget(tabs)     
+        layout.addWidget(tabs)  
         #Creating welcome screen   
         #Criando tela de boas vindas
         user = os.getenv("USERNAME")        
