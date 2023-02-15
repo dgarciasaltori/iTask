@@ -127,4 +127,5 @@ Uma aba para mostrar o valor total das tarefas e multas em um gráfico de barras
 
 Banco de dados criado em SQLite3 contendo duas tabelas, o arquivo é criado automaticamente ao abrir a primeira vez o aplicativo.
 
-## YouTube Video: https://youtu.be/tF78CP-x504
+## YouTube Video (Version 1.0): https://youtu.be/tF78CP-x504
+## YouTube Video (Version 1.1): https://youtu.be/b7lem1wA37s
