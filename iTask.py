@@ -376,7 +376,8 @@ class App(QWidget):
         # Anexa o arquivo do Excel à mensagem de e-mail
         with open(fileName, "rb") as f:
             file_data = f.read()
-            msg.add_attachment(file_data, maintype="application", subtype="vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename=fileName)
+            filename = os.path.basename(fileName)
+            msg.add_attachment(file_data, maintype="application", subtype="vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename=filename)
         # Envia a mensagem de e-mail
         with smtplib.SMTP(smtp_server, smtp_port) as server:
             server.starttls()
