@@ -11,6 +11,7 @@ import sys
 import os
 import sqlite3
 import smtplib
+import imaplib
 from email.message import EmailMessage
 from openpyxl import Workbook
 import pandas as pd
@@ -347,43 +348,66 @@ class App(QWidget):
         ws3.cell(row=4, column=2).value = diff
         # Salva o arquivo
         wb.save(fileName)
-    # Configura as informações do servidor SMTP
-        smtp_server = "smtp.office365.com"
-        smtp_port = 587
-        smtp_username = "noreplay.itask@outlook.com"
-        smtp_password = "5rvDYvNcS3D&S-S"
-        smtp_conn = smtplib.SMTP(smtp_server, smtp_port)
-        smtp_conn.starttls()
-        smtp_conn.login(smtp_username, smtp_password)
 ##################################################################################
-        #Cria a mensagem de e-mail
-        #Perguntar para quem enviar o e-mail
-        email, ok = QInputDialog.getText(self, "Enviar e-mail", "Insira os endereços de e-mail separados por vírgula")
-        # Verificar se o usuário confirmou o diálogo
-        if ok:
-            # Cria a mensagem de e-mail
-            msg = EmailMessage()
-            msg["From"] = smtp_username
-            msg["To"] = email
-            msg["Subject"] = "Minha mesada foi calculado pelo iTask"
-            msg.set_content(f"Mãe e Pai, tudo bem? \nO total da tabela 'Tarefas' é R${total1}. \nO total da tabela 'Multas' é R${total2}. \nE este é o valor que tenho que receber R${diff}. \nUm forte abraço e amo vocês!")
-##################################################################################
-        # msg = EmailMessage()
-        # msg["From"] = smtp_username
-        # msg["To"] = "dgarcia.saltori@me.com, avsaltori.garcia@me.com"
-        # msg["Subject"] = "Minha mesada foi calculado pelo iTask"
-        # msg.set_content(f"Mãe e Pai, tudo bem? \nO total da tabela 'Tarefas' é R${total1}.\nO total da tabela 'Multas' é R${total2}. \nE este é o valor que tenho que receber R${diff}. \nUm forte abraço e amo vocês!")
+    # Configura as informações do servidor IMAP
+        imap_server = "imap.umbler.com"
+        imap_port = 993
+        imap_username = "noreplay@saltori.dev"
+        imap_password = "5rvDYvNcS3DS-S"
+        imap_conn = imaplib.IMAP4_SSL(imap_server, imap_port)
+        imap_conn.login(imap_username, imap_password)
+
+        msg = EmailMessage()
+        msg["From"] = imap_username
+        msg["To"] = "dgarcia.saltori@me.com"
+        msg["Subject"] = "Minha mesada foi calculado pelo iTask"
+        msg.set_content(f"Mãe e Pai, tudo bem? \nO total da tabela 'Tarefas' é R${total1}.\nO total da tabela 'Multas' é R${total2}. \nE este é o valor que tenho que receber R${diff}. \nUm forte abraço e amo vocês!")
         # Anexa o arquivo do Excel à mensagem de e-mail
         with open(fileName, "rb") as f:
             file_data = f.read()
             filename = os.path.basename(fileName)
             msg.add_attachment(file_data, maintype="application", subtype="vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename=filename)
         # Envia a mensagem de e-mail
-        with smtplib.SMTP(smtp_server, smtp_port) as server:
-            server.starttls()
-            server.login(smtp_username, smtp_password)
-            server.send_message(msg)
-        smtp_conn.quit()
+        imap_conn.select("INBOX")
+        imap_conn.append("INBOX", None, None, msg.as_bytes())
+        imap_conn.logout()
+##################################################################################
+    # # Configura as informações do servidor SMTP
+    #     smtp_server = "smtp.office365.com"
+    #     smtp_port = 587
+    #     smtp_username = "noreplay.itask@outlook.com"
+    #     smtp_password = "5rvDYvNcS3D&S-S"
+    #     smtp_conn = smtplib.SMTP(smtp_server, smtp_port)
+    #     smtp_conn.starttls()
+    #     smtp_conn.login(smtp_username, smtp_password)
+    #     #Cria a mensagem de e-mail
+    #     #Perguntar para quem enviar o e-mail
+    #     email, ok = QInputDialog.getText(self, "Enviar e-mail", "Insira os endereços de e-mail separados por vírgula")
+    #     # Verificar se o usuário confirmou o diálogo
+    #     if ok:
+    #         # Cria a mensagem de e-mail
+    #         msg = EmailMessage()
+    #         msg["From"] = smtp_username
+    #         msg["To"] = email
+    #         msg["Subject"] = "Minha mesada foi calculado pelo iTask"
+    #         msg.set_content(f"Mãe e Pai, tudo bem? \nO total da tabela 'Tarefas' é R${total1}. \nO total da tabela 'Multas' é R${total2}. \nE este é o valor que tenho que receber R${diff}. \nUm forte abraço e amo vocês!")
+        # msg = EmailMessage()
+        # msg["From"] = smtp_username
+        # msg["To"] = "dgarcia.saltori@me.com, avsaltori.garcia@me.com"
+        # msg["Subject"] = "Minha mesada foi calculado pelo iTask"
+        # msg.set_content(f"Mãe e Pai, tudo bem? \nO total da tabela 'Tarefas' é R${total1}.\nO total da tabela 'Multas' é R${total2}. \nE este é o valor que tenho que receber R${diff}. \nUm forte abraço e amo vocês!")
+        # Anexa o arquivo do Excel à mensagem de e-mail
+        # with open(fileName, "rb") as f:
+        #     file_data = f.read()
+        #     filename = os.path.basename(fileName)
+        #     msg.add_attachment(file_data, maintype="application", subtype="vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename=filename)
+        # # Envia a mensagem de e-mail
+        # with smtplib.SMTP(smtp_server, smtp_port) as server:
+        #     server.starttls()
+        #     server.login(smtp_username, smtp_password)
+        #     server.send_message(msg)
+        # smtp_conn.quit()
+##################################################################################
         # Limpa a tabela 'task' no banco de dados
         cur.execute("DELETE FROM task")
         cur.execute("DELETE FROM punish")
