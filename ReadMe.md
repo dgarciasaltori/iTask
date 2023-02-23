@@ -1,4 +1,4 @@
-# Welcome to iTask 1.1
+# Welcome to iTask 1.2
 
 The iTask project is a project of mine, where the idea was to create something from scratch to understand all the logic of and study the Python programming language and its dependencies.
 The premise of the project came from helping my son manage to organize his payments for tasks and his punish (which are punishments applied in relation to what he earns for fulfilling something within our daily life).
@@ -10,12 +10,24 @@ So thinking about that came the idea for my study, to create something that coul
 To be able to create the .exe file, just use the following command in the terminal in the root folder of the project:
 pyinstaller --onefile --windowed --icon='c://path/file.ico' iTask.py
 
+## News...
+Now the export to excel function, in addition to saving the spreadsheet locally, also sends a summary and the file by email.
+
 Check requirements.txt file for required libraries.
 
 ## YouTube Video (Version 1.0): https://youtu.be/tF78CP-x504
 ## YouTube Video (Version 1.1): https://youtu.be/b7lem1wA37s
+## YouTube Video (Version 1.2): https://youtu.be/uFQaaJ4odgI
 
 # iTask screens
+
+## New screens
+![News screen](image/env_exp.png)
+![News screen](image/excel_save.png)
+![News screen](image/plan_01.png)
+![News screen](image/plan_02.png)
+![News screen](image/email_send.png)
+![News screen](image/email.png)
 
 ## Welcome tab
 
@@ -64,7 +76,7 @@ A tab to show the total amount of tasks and punish in a bar graph.
 
 Database created in SQLite3 containing two tables, the file is created automatically when opening the application for the first time.
 
-# Bem-vindo ao iTask 1.1
+# Bem-vindo ao iTask 1.2
 
 O projeto iTask é um projeto de autoria minha, onde a ideia foi criar algo do zero para entender toda a lógica de e estudar a linguagem de programação Python e suas dependências.
 A premissa do projeto surgiu em ajudar meu filho a conseguir organizar seus pagamentos por tarefas e suas multas (que são castigos aplicados em relação ao que ele ganha por cumprir algo dentro do nosso cotidiano).
@@ -76,9 +88,20 @@ Então pensando nisso que veio a ideia para meu estudo, criar algo que pudesse a
 Para poder criar o arquivo .exe basta usar o seguinte comando no terminal na pasta raiz do projeto:
 pyinstaller --onefile --windowed --icon='caminho do arquivo.ico' iTask.py
 
+## Novidades
+Agora a função de exportar para o excel além de salvar a planilha localmente, também enviar por e-mail um resumo e o arquivo.
+
 Verificar arquivo requeriments.txt para bibliotecas necessárias.
 
 # Telas do iTask
+
+## Novas telas
+![News screen](image/env_exp.png)
+![News screen](image/excel_save.png)
+![News screen](image/plan_01.png)
+![News screen](image/plan_02.png)
+![News screen](image/email_send.png)
+![News screen](image/email.png)
 
 ## Aba de Boas-vindas
 
@@ -129,3 +152,4 @@ Banco de dados criado em SQLite3 contendo duas tabelas, o arquivo é criado auto
 
 ## YouTube Video (Version 1.0): https://youtu.be/tF78CP-x504
 ## YouTube Video (Version 1.1): https://youtu.be/b7lem1wA37s
+## YouTube Video (Version 1.2): https://youtu.be/uFQaaJ4odgI
