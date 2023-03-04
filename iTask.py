@@ -349,10 +349,10 @@ class App(QWidget):
         wb.save(fileName)
 ##################################################################################
         # Configura as informações do servidor SMTP
-        smtp_server = "smtp.umbler.com"
+        smtp_server = "smtp.mail.com"
         smtp_port = 587
-        smtp_username = "noreplay@saltori.dev"
-        smtp_password = "5rvDYvNcS3DS-S"
+        smtp_username = "exemplo@mail.com"
+        smtp_password = "exemplo123"
 
         with smtplib.SMTP(smtp_server, smtp_port) as smtp_conn:
             smtp_conn.ehlo()
@@ -361,7 +361,7 @@ class App(QWidget):
 
             msg = EmailMessage()
             msg["From"] = smtp_username
-            msg["To"] = "avsaltori.garcia@me.com, dgarcia.saltori@gmail.com"
+            msg["To"] = "exemplo@mail.com"
             msg["Subject"] = "Minha mesada foi calculado pelo iTask"
             msg.set_content(f"Mãe e Pai, tudo bem? \nO total da tabela 'Tarefas' é R${total1}.\nO total da tabela 'Multas' é R${total2}. \nE este é o valor que tenho que receber R${diff}. \nUm forte abraço e amo vocês!")
 
