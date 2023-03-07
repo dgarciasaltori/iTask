@@ -1,5 +1,6 @@
-Para instalar as dependencias e bibliotecas basta acessar o site: pypi.org  
-Buscar pelos itens importados no inicio do arquivo iTask.py
-
-To install the dependencies and libraries, just access the site: pypi.org 
-Search for the imported items at the beginning of the iTask.py file
+sqlite3
+smtplib
+openpyxl
+pandas
+PyQt5
+matplotlib

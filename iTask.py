@@ -1,11 +1,8 @@
 ##################################################################################
 #                       Code by: Diego Garcia Saltori                            #
-#                       UTF-8                                                    #
-#                       Lang: EN | PT-BR                                         #
-#                       Version: 1.2                                             #
+#                    UTF-8 | Lang: PT-BR | Version: 1.2                          #
 ##################################################################################
 #                       Importar Bibliotecas                                     #
-#                       Import Libraries                                         #
 ##################################################################################
 import sys
 import os
@@ -21,17 +18,14 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTabWidget, QTableView, QDoubl
 from PyQt5.QtWidgets import QApplication, QFormLayout, QLineEdit, QPushButton, QDateEdit, QSizePolicy, QFileDialog
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-##################################################################################
-#Creating database
+
 #Criando banco de dados
 conn = sqlite3.connect("Tarefas.db")
 cur = conn.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS task (id INTEGER PRIMARY KEY AUTOINCREMENT, task text, date text, value value)")
 cur.execute("CREATE TABLE IF NOT EXISTS punish (id INTEGER PRIMARY KEY AUTOINCREMENT, punish text, date text, value value)")
-#Class to create the application
 #Classe para criar a aplicação
 class App(QWidget):
-    #Function to create application interface
     #Função para criar a interface do aplicativo
     def __init__(self):
         super().__init__()
@@ -47,16 +41,12 @@ class App(QWidget):
         self.sImage = self.oImage.scaled(self.width, self.height) 
         self.palette = QPalette()
         self.palette.setBrush(10, QBrush(self.oImage))
-        #That 10 above is the Window role property, see the Qt manual
         #Esse 10 acima é a propriedade Window role, veja o manual da Qt
         self.setPalette(self.palette)
-##################################################################################
-    #Creation of application tabs
     #Criação das abas da aplicação
     def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
-        #Creation of tab layout
         #Criação do layout das abas
         layout = QVBoxLayout()
         tabs = QTabWidget() 
@@ -69,18 +59,14 @@ class App(QWidget):
         tabs.addTab(punish, "Registro de Multas")
         tabs.addTab(report, "Relatórios")
         layout.addWidget(tabs)  
-        #Creating welcome screen   
         #Criando tela de boas vindas
         user = os.getenv("USERNAME")        
         welcome_label = QLabel(user)
-        #welcome_label.setWordWrap(True)
         welcome_label.setStyleSheet("font-size: 35px; font-weight: bold;")
         welcome_label.setAlignment(Qt.AlignCenter)
         welcome_label1 = QLabel("Seja bem-vindo!")
-        #welcome_label1.setWordWrap(True)
         welcome_label1.setStyleSheet("font-size: 30px; font-weight: bold;")
         welcome_label1.setAlignment(Qt.AlignCenter)
-        #Creating a Task Card
         #Criando card de Tarefas
         tarefas_card = QFrame()
         tarefas_card.setFrameShape(QFrame.Box)
@@ -97,7 +83,6 @@ class App(QWidget):
         tarefas_card.setStyleSheet("background-color: #20b2aa; color: white; border-radius: 10px; padding: 20px; font-size: 20px;")
         tarefas_layout.addWidget(tarefas_label)
         tarefas_card.setLayout(tarefas_layout)
-        #Creating punish card
         #Criando card de multas
         multas_card = QFrame()
         multas_card.setFrameShape(QFrame.Box)
@@ -113,7 +98,6 @@ class App(QWidget):
         multas_card.setStyleSheet("background-color: #f5001b; color: white; border-radius: 10px; padding: 20px; font-size: 20px;")
         multas_layout.addWidget(multas_label)
         multas_card.setLayout(multas_layout)
-        #Creating Results card
         #Criando card de Resultados
         resultado_card = QFrame()
         resultado_card.setFrameShape(QFrame.Box)
@@ -127,7 +111,6 @@ class App(QWidget):
         resultado_card.setStyleSheet("background-color: #49b675; color: white; border-radius: 10px; padding: 20px; font-size: 20px;")
         resultado_layout.addWidget(resultado_label)
         resultado_card.setLayout(resultado_layout)
-        #Finalizing the layout of the first welcome tab
         #Finalizando o Layout da primeira aba de boas vindas
         welcome_layout = QVBoxLayout()
         welcome_layout.setAlignment(Qt.AlignCenter)
@@ -140,8 +123,6 @@ class App(QWidget):
         welcome_layout.addWidget(send_button)
         send_button.clicked.connect(self.export_to_excel)
         welcome_tab.setLayout(welcome_layout)
-##################################################################################
-        #Creating the Tasks form and Tasks tab
         #Criando o formulario de Tarefas e aba de Tarefas
         form = QFormLayout()
         name = QLineEdit()
@@ -154,12 +135,10 @@ class App(QWidget):
         date_field.show()
         form.addRow("Data:", date_field)
         form.addRow("Valor:", value_field)
-        #Submit button for table
         #Botão de envio para a tabela
         button = QPushButton("Enviar")       
         button.clicked.connect(lambda: self.update_data(name.text(), date_field.dateTime(), value_field.value()))
         form.addRow(button) 
-        #Task tables
         #Tabelas de tarefas
         self.data = {'Tarefa': [], 'Data': [], 'Valor': []}
         df = pd.DataFrame(self.data)
@@ -188,17 +167,13 @@ class App(QWidget):
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.update_dataframe(df)
         form.addRow(self.table)
-        #Button to save the table data in the database
         #Botão para salvar os dados da tabela no banco de dados
         save_button = QPushButton("Salvar")
         form.addRow(save_button)
         save_button.clicked.connect(self.save_data)
-        #Finalizing the Tasks tab layout
         #Finalizando layout da aba Tarefas
         task.setLayout(form)
         self.show()
-##################################################################################
-        #Creating the Punish form and Punish tab
         #Criando o formulario de Multas e aba de Multas
         form2 = QFormLayout()
         name2 = QLineEdit()
@@ -211,17 +186,18 @@ class App(QWidget):
         date_field2.show()
         form2.addRow("Data:", date_field2)
         form2.addRow("Valor:", value_field2)
-        #Submit button for table
         #Botão de envio para a tabela
         button2 = QPushButton("Enviar")       
         button2.clicked.connect(lambda: self.update_data2(name2.text(), date_field2.dateTime(), value_field2.value()))
         form2.addRow(button2)    
-        #Punish tables
         #Tabelas de Multas
         self.data2 = {'Multa': [], 'Data': [], 'Valor': []}
         df2 = pd.DataFrame(self.data2)
         self.table2 = QTableView()
         self.table2.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.table2.setColumnWidth(0, 100)  # define a largura da coluna 0 como 100 pixels
+        self.table2.setColumnWidth(1, 150)  # define a largura da coluna 1 como 150 pixels
+        self.table2.setColumnWidth(2, 200)  # define a largura da coluna 2 como 200 pixels
         self.table2.setStyleSheet("""
             QTableView {
                 background-color: #fafad2;
@@ -241,39 +217,30 @@ class App(QWidget):
         """)
         self.table2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.update_dataframe2(df2)
-        #Button to save the table data in the database
         #Botão para salvar os dados da tabela no banco de dados
         form2.addRow(self.table2)
         save_button2 = QPushButton("Salvar")
         form2.addRow(save_button2)
         save_button2.clicked.connect(self.save_data2)
-        #Finalizing the Punish tab layout
         #Finalizando layout da aba Multas        
         punish.setLayout(form2)
         self.show()        
-##################################################################################
-        #Creating the Reports tab and connecting to the database
         #Criando a aba de Relatórios e conectando ao banco de dados
         conn = sqlite3.connect("Tarefas.db")
-        #Creating a variable to read the column of values for each table in the Tasks and Punish database
         #Criando variavél para fazer a leitura da coluna de valores para cada tabela do banco Tarefas e Multas
         df = pd.read_sql_query("SELECT value FROM task", conn)
         df2 = pd.read_sql_query("SELECT value FROM punish", conn)
-        #Creating variable to get the total sum of the values of each column
         #Criando variavel para obter a soma total dos valores de cada coluna
         sum_tasks = df['value'].sum()
         sum_punish = df2['value'].sum()
-        #Creating a bar chart
         #Criando gráfico de barras
         fig, ax = plt.subplots()
         plt.bar(x=['Tarefas', 'Multas'], height=[sum_tasks, sum_punish], color=['blue', 'red'])
-        #Creating the title of the chart axes and label
         #Criando o titulo dos eixos do grafico e nome
         ax.set_title("Meu gráfico de andamento")
         ax.set_xlabel("")
         ax.set_ylabel("Soma dos valores")
         conn.close()
-        # Finalizing the insertion of the graphic in the tab
         #Finalizando a inserção do gráfico na aba
         graph = QVBoxLayout(report)
         canvas = FigureCanvas(fig)
@@ -282,11 +249,9 @@ class App(QWidget):
         self.show()
         self.setLayout(layout)
 ##################################################################################
-#                            Functions for Tasks                                 #
 #                            Funções para Tarefas                                #
 ##################################################################################
-    #Export to Excel and Clear database
-    #Exportar para Excel e Limpar banco de dados
+    #Exportar para Excel, envio de e-mail e Limpar banco de dados
     def export_to_excel(self):
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
@@ -347,32 +312,26 @@ class App(QWidget):
         ws3.cell(row=4, column=2).value = diff
         # Salva o arquivo
         wb.save(fileName)
-##################################################################################
-        # Configura as informações do servidor SMTP
+        # Configura as informações do servidor SMTP altere os dados para o seu server de email
         smtp_server = "smtp.mail.com"
         smtp_port = 587
         smtp_username = "exemplo@mail.com"
         smtp_password = "exemplo123"
-
         with smtplib.SMTP(smtp_server, smtp_port) as smtp_conn:
             smtp_conn.ehlo()
             smtp_conn.starttls()
             smtp_conn.login(smtp_username, smtp_password)
-
             msg = EmailMessage()
             msg["From"] = smtp_username
             msg["To"] = "exemplo@mail.com"
             msg["Subject"] = "Minha mesada foi calculado pelo iTask"
             msg.set_content(f"Mãe e Pai, tudo bem? \nO total da tabela 'Tarefas' é R${total1}.\nO total da tabela 'Multas' é R${total2}. \nE este é o valor que tenho que receber R${diff}. \nUm forte abraço e amo vocês!")
-
             with open(fileName, "rb") as f:
                 file_data = f.read()
                 filename = os.path.basename(fileName)
                 msg.add_attachment(file_data, maintype="application", subtype="vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename=filename)
-
             # Envia a mensagem de e-mail
             smtp_conn.send_message(msg)
-##################################################################################
         # Limpa a tabela 'task' no banco de dados
         cur.execute("DELETE FROM task")
         cur.execute("DELETE FROM punish")
@@ -381,7 +340,6 @@ class App(QWidget):
         # Carrega os dados atualizados na interface gráfica
         self.load_data()
         self.load_data2()
-    #Send table to database
     #Enviar tabela para banco de dados
     def update_data(self, name, date_field, value_field):
         self.data['Tarefa'].append(name)
@@ -389,7 +347,6 @@ class App(QWidget):
         self.data['Valor'].append(value_field)
         df = pd.DataFrame(self.data)
         self.update_dataframe(df)
-    #Automatically update the table with the database when opening the application  
     #Fazer update automatico da tabela com o banco ao abrir o aplicativo
     def update_dataframe(self, df):
         model = QStandardItemModel(df.shape[0], df.shape[1])
@@ -400,7 +357,6 @@ class App(QWidget):
                 model.setItem(i, j, item)
         self.table.setModel(model)
         self.table.resizeColumnsToContents()
-    #Save form to table
     #Salvar formulário na tabela
     def save_data(self):
         conn = sqlite3.connect("Tarefas.db")
@@ -418,7 +374,6 @@ class App(QWidget):
         conn.commit()
         conn.close()
         self.load_data()
-    #Automatically load the database
     #Carregar automaticamente o banco de dados
     def load_data(self):
         self.data = {'Tarefa': [], 'Data': [], 'Valor': []}
@@ -434,8 +389,7 @@ class App(QWidget):
         df = pd.DataFrame(self.data)
         self.update_dataframe(df) 
 ##################################################################################
-#                            Functions for Punish                                #
-#                            Funções para Multas                                 #
+#                          Funções para Multas                                   #
 ##################################################################################
     def update_data2(self, name2, date_field2, value_field2):
         self.data2['Multa'].append(name2)
@@ -443,7 +397,6 @@ class App(QWidget):
         self.data2['Valor'].append(value_field2)
         df2 = pd.DataFrame(self.data2)
         self.update_dataframe2(df2)
-    #Automatically update the table with the database when opening the application  
     #Fazer update automatico da tabela com o banco ao abrir o aplicativo 
     def update_dataframe2(self, df2):
         model2 = QStandardItemModel(df2.shape[0], df2.shape[1])
@@ -454,7 +407,6 @@ class App(QWidget):
                 model2.setItem(i, j, item2)
         self.table2.setModel(model2)
         self.table2.resizeColumnsToContents()
-    #Save form to table
     #Salvar formulário na tabela
     def save_data2(self):
         conn = sqlite3.connect("Tarefas.db")
@@ -472,7 +424,6 @@ class App(QWidget):
         conn.commit()
         conn.close()
         self.load_data2()
-    #Automatically load the database
     #Carregar automaticamente o banco de dados
     def load_data2(self):
         self.data2 = {'Multa': [], 'Data': [], 'Valor': []}
@@ -487,10 +438,7 @@ class App(QWidget):
         conn.close()
         df2 = pd.DataFrame(self.data2)
         self.update_dataframe2(df2)
-##################################################################################
-#                                   Run                                          #
-#                                   Executar                                     #
-##################################################################################
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = App()
